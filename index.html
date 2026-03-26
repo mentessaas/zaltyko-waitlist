@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaltyko - Lista de Espera</title>
+    <meta name="description" content="Plataforma de gestión para academias de gimnasiarítmica. Próximamente.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Zaltyko - Gestión para Academias de Gimnasia Rítmica">
+    <meta property="og:description" content="La plataforma que centraliza toda la gestión de tu academia. Sin WhatsApp, sin papel, sin caos.">
+    <meta property="og:type" content="website">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .highlight {
+            color: #f87171;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .feature-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .feature-text p {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        input::placeholder {
+            color: #64748b;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #f87171;
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 8px;
+        }
+        
+        button:hover {
+            background: #dc2626;
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .trust {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        
+        .trust-icon {
+            color: #22c55e;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        .success-message h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .success-message p {
+            color: #94a3b8;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer p {
+            font-size: 13px;
+            color: #64748b;
+        }
+        
+        .footer a {
+            color: #f87171;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .form-container {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form Section -->
+        <div id="form-section">
+            <div class="badge">Próximo lanzamiento</div>
+            
+            <h1>Gestión <span class="highlight">sin caos</span> para academias de gimnasia rítmica</h1>
+            
+            <p class="subtitle">La plataforma que centraliza inscripciones, cobros, comunicación y mucho más. Sin WhatsApp, sin papel, sin caos.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">📋</span>
+                    <div class="feature-text">
+                        <h3>Gestión integral</h3>
+                        <p>Fichas de gimnastas, federaciones, horarios y clases en un solo lugar.</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">📱</span>
+                    <div class="feature-text">
+                        <h3>Comunicación con familias</h3>
+                        <p>Mensajería interna y notificaciones. Sin grupos de WhatsApp.</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">💳</span>
+                    <div class="feature-text">
+                        <h3>Cobros y facturación</h3>
+                        <p>Control total de pagos sin seguirlo por WhatsApp.</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">🏆</span>
+                    <div class="feature-text">
+                        <h3>Competiciones y marketplace</h3>
+                        <p>Organiza eventos, vende productos y más.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-container">
+                <h2 class="form-title">Únete a la lista de espera</h2>
+                <p class="form-subtitle">Serás de los primeros en probarlo cuando lancemos.</p>
+                
+                <form id="waitlist-form">
+                    <div class="form-group">
+                        <label for="name">Tu nombre</label>
+                        <input type="text" id="name" name="name" placeholder="Ej: María García" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="club">Nombre de tu academia</label>
+                        <input type="text" id="club" name="club" placeholder="Ej: Academia Ritmo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono (opcional)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="600 123 456">
+                    </div>
+                    
+                    <button type="submit">Unirme a la lista de espera</button>
+                    
+                    <div class="trust">
+                        <span class="trust-icon">✓</span>
+                        <span>Sin spam. Te avisamos solo cuando lancemos.</span>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="footer">
+                <p>¿Ya tienes cuenta? <a href="https://app.zaltyko.com">Acceder a Zaltyko</a></p>
+            </div>
+        </div>
+        
+        <!-- Success Message -->
+        <div id="success-section" class="success-message">
+            <div class="success-icon">🎉</div>
+            <h2>¡Te has unido!</h2>
+            <p>Gracias por tu interés. Te avisaremos en cuanto lancemos.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                club: document.getElementById('club').value,
+                phone: document.getElementById('phone').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Log to console (for demo - in production, send to backend)
+            console.log('Nueva inscripción:', formData);
+            
+            // Store in localStorage (temporary storage)
+            const waitlist = JSON.parse(localStorage.getItem('zaltyko_waitlist') || '[]');
+            waitlist.push(formData);
+            localStorage.setItem('zaltyko_waitlist', JSON.stringify(waitlist));
+            
+            // Show success message
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('success-section').classList.add('show');
+            
+            // In production, you would send this to a backend or service like:
+            // - Supabase
+            // - Google Sheets (via Google Forms)
+            // - Mailchimp
+            // - Airtable
+            // etc.
+        });
+    </script>
+</body>
+</html>
