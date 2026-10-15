@@ -1,374 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zaltyko - Lista de Espera</title>
-    <meta name="description" content="Plataforma de gestión para academias de gimnasiarítmica. Próximamente.">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Zaltyko - Gestión para Academias de Gimnasia Rítmica">
-    <meta property="og:description" content="La plataforma que centraliza toda la gestión de tu academia. Sin WhatsApp, sin papel, sin caos.">
-    <meta property="og:type" content="website">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh;
-            color: #f8fafc;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .badge {
-            display: inline-block;
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-        
-        .highlight {
-            color: #f87171;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            color: #94a3b8;
-            margin-bottom: 40px;
-        }
-        
-        .features {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-        
-        .feature {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-icon {
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-        
-        .feature-text h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .feature-text p {
-            font-size: 14px;
-            color: #94a3b8;
-        }
-        
-        .form-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .form-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        
-        .form-subtitle {
-            font-size: 14px;
-            color: #94a3b8;
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #cbd5e1;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: #f8fafc;
-            font-size: 16px;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        
-        input::placeholder {
-            color: #64748b;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #f87171;
-            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
-        }
-        
-        button {
-            width: 100%;
-            padding: 16px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            margin-top: 8px;
-        }
-        
-        button:hover {
-            background: #dc2626;
-        }
-        
-        button:active {
-            transform: scale(0.98);
-        }
-        
-        .trust {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 16px;
-            font-size: 13px;
-            color: #64748b;
-        }
-        
-        .trust-icon {
-            color: #22c55e;
-        }
-        
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .success-message.show {
-            display: block;
-        }
-        
-        .success-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-        }
-        
-        .success-message h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        
-        .success-message p {
-            color: #94a3b8;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .footer p {
-            font-size: 13px;
-            color: #64748b;
-        }
-        
-        .footer a {
-            color: #f87171;
-            text-decoration: none;
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 28px;
-            }
-            
-            .subtitle {
-                font-size: 16px;
-            }
-            
-            .form-container {
-                padding: 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Form Section -->
-        <div id="form-section">
-            <div class="badge">Próximo lanzamiento</div>
-            
-            <h1>Gestión <span class="highlight">sin caos</span> para academias de gimnasia rítmica</h1>
-            
-            <p class="subtitle">La plataforma que centraliza inscripciones, cobros, comunicación y mucho más. Sin WhatsApp, sin papel, sin caos.</p>
-            
-            <div class="features">
-                <div class="feature">
-                    <span class="feature-icon">📋</span>
-                    <div class="feature-text">
-                        <h3>Gestión integral</h3>
-                        <p>Fichas de gimnastas, federaciones, horarios y clases en un solo lugar.</p>
-                    </div>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">📱</span>
-                    <div class="feature-text">
-                        <h3>Comunicación con familias</h3>
-                        <p>Mensajería interna y notificaciones. Sin grupos de WhatsApp.</p>
-                    </div>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">💳</span>
-                    <div class="feature-text">
-                        <h3>Cobros y facturación</h3>
-                        <p>Control total de pagos sin seguirlo por WhatsApp.</p>
-                    </div>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">🏆</span>
-                    <div class="feature-text">
-                        <h3>Competiciones y marketplace</h3>
-                        <p>Organiza eventos, vende productos y más.</p>
-                    </div>
-                </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F5F8F8" />
+    <meta name="description" content="Cuotas, grupos y asistencia en orden. Crea tu academia gratis o solicita acompañamiento para una migración compleja o varias sedes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Zaltyko para academias de gimnasia" />
+    <meta property="og:description" content="Gestión diaria para academias de gimnasia artística y rítmica. Empieza gratis o solicita acompañamiento para una estructura compleja." />
+    <title>Zaltyko · Gestión para academias de gimnasia</title>
+    <link rel="icon" href="/logo-zaltyko.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#solicitud">Saltar a las opciones de contacto</a>
+
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Zaltyko, inicio">
+          <img src="/logo-zaltyko.svg" width="142" height="42" alt="Zaltyko" />
+        </a>
+        <nav class="header-nav" aria-label="Navegación principal">
+          <a href="#enfoque">Cómo te ayuda</a>
+          <a data-track-attribution href="https://zaltyko.com/pricing?utm_source=waitlist&amp;utm_medium=referral&amp;utm_campaign=academy_acquisition">Planes</a>
+          <a class="nav-cta" data-track-attribution href="https://zaltyko.com/auth/register?role=owner&amp;utm_source=waitlist&amp;utm_medium=referral&amp;utm_campaign=academy_acquisition">Crear cuenta <span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Para academias de gimnasia artística y rítmica</p>
+            <h1 id="hero-title">Las cuotas cobradas. Los grupos montados. <em>La lista pasada.</em></h1>
+            <p class="hero-lede">
+              Ordena la gestión diaria de tu academia: gimnastas por nivel y aparato, cuotas recurrentes, asistencia por sesión y familias informadas. Sin Excel disperso ni chats haciendo de sistema.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" data-track-attribution href="https://zaltyko.com/auth/register?role=owner&amp;utm_source=waitlist&amp;utm_medium=referral&amp;utm_campaign=academy_acquisition">Crear academia gratis <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href="#solicitud">Tengo varias sedes o necesito migrar <span aria-hidden="true">↓</span></a>
             </div>
-            
-            <div class="form-container">
-                <h2 class="form-title">Únete a la lista de espera</h2>
-                <p class="form-subtitle">Serás de los primeros en probarlo cuando lancemos.</p>
-                
-                <form id="waitlist-form">
-                    <div class="form-group">
-                        <label for="name">Tu nombre</label>
-                        <input type="text" id="name" name="name" placeholder="Ej: María García" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="club">Nombre de tu academia</label>
-                        <input type="text" id="club" name="club" placeholder="Ej: Academia Ritmo" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Teléfono (opcional)</label>
-                        <input type="tel" id="phone" name="phone" placeholder="600 123 456">
-                    </div>
-                    
-                    <button type="submit">Unirme a la lista de espera</button>
-                    
-                    <div class="trust">
-                        <span class="trust-icon">✓</span>
-                        <span>Sin spam. Te avisamos solo cuando lancemos.</span>
-                    </div>
-                </form>
+            <p class="hero-assurance"><span aria-hidden="true">✳</span> Empieza en autoservicio. El contacto es para estructuras o migraciones complejas.</p>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="visual-ring ring-one"></div>
+            <div class="visual-ring ring-two"></div>
+            <div class="visual-orbit orbit-one"></div>
+            <div class="visual-orbit orbit-two"></div>
+            <svg class="ribbon-art" viewBox="0 0 520 500" fill="none" role="presentation" focusable="false">
+              <defs>
+                <linearGradient id="ribbon-main" x1="112" y1="362" x2="403" y2="101" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#1FC7B6" />
+                  <stop offset="1" stop-color="#2B2E83" />
+                </linearGradient>
+              </defs>
+              <ellipse cx="258" cy="253" rx="160" ry="118" transform="rotate(-31 258 253)" stroke="white" stroke-opacity=".72" stroke-width="1.5" />
+              <path d="M102 366C142 305 101 224 176 197C228 178 267 219 241 267C216 313 197 354 248 372C311 395 336 329 319 279C301 224 328 170 418 107" stroke="url(#ribbon-main)" stroke-width="10" stroke-linecap="round" />
+              <path d="M111 389C158 377 188 337 197 296C208 245 242 222 278 240C311 257 320 295 293 320" stroke="#1FC7B6" stroke-opacity=".88" stroke-width="2" stroke-linecap="round" />
+              <circle cx="419" cy="106" r="7" fill="#1FC7B6" />
+              <circle cx="118" cy="148" r="4" fill="#2B2E83" />
+              <path d="M371 381H395M383 369V393" stroke="white" stroke-opacity=".8" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <div class="visual-caption">
+              <span class="caption-index">Z / ACADEMIAS</span>
+              <span>Dirección clara. Más foco en la pista.</span>
             </div>
-            
-            <div class="footer">
-                <p>¿Ya tienes cuenta? <a href="https://app.zaltyko.com">Acceder a Zaltyko</a></p>
-            </div>
+            <span class="visual-tag tag-top">Artística</span>
+            <span class="visual-tag tag-bottom">Rítmica</span>
+          </div>
+        </section>
+
+        <div class="audience-strip" aria-label="Especialidad">
+          <p>Una herramienta para quien dirige una academia y coordina el día a día</p>
+          <div><span>Gimnastas</span><i aria-hidden="true"></i><span>Cuotas</span><i aria-hidden="true"></i><span>Asistencia</span><i aria-hidden="true"></i><span>Familias</span></div>
         </div>
-        
-        <!-- Success Message -->
-        <div id="success-section" class="success-message">
-            <div class="success-icon">🎉</div>
-            <h2>¡Te has unido!</h2>
-            <p>Gracias por tu interés. Te avisaremos en cuanto lancemos.</p>
-        </div>
+
+        <section class="focus-section" id="enfoque" aria-labelledby="focus-title">
+          <div class="section-intro">
+            <p class="eyebrow eyebrow-light"><span class="eyebrow-mark" aria-hidden="true"></span> El enfoque</p>
+            <h2 id="focus-title">Menos gestión repartida. Más control de la academia.</h2>
+            <p>Si las cuotas, los grupos y la asistencia viven en sitios distintos, cuesta tener una visión clara. Zaltyko reúne las tareas que sostienen cada jornada de gimnasia.</p>
+          </div>
+          <div class="focus-list">
+            <article class="focus-item">
+              <span class="focus-number">01</span>
+              <div><h3>Cuotas y cobros</h3><p>Revisa pagos y seguimiento sin perseguir cada caso entre mensajes y hojas distintas.</p></div>
+              <span class="focus-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="focus-item">
+              <span class="focus-number">02</span>
+              <div><h3>Grupos por nivel y aparato</h3><p>Organiza grupos, niveles y cambios de horario sin saltar entre hojas.</p></div>
+              <span class="focus-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="focus-item">
+              <span class="focus-number">03</span>
+              <div><h3>Asistencia y familias</h3><p>Pasa lista por sesión y mantén la comunicación del club en un espacio ordenado.</p></div>
+              <span class="focus-arrow" aria-hidden="true">↗</span>
+            </article>
+          </div>
+          <p class="focus-note"><span aria-hidden="true">✳</span> La conversación sirve para entender tu operativa y valorar el encaje antes de dar cualquier paso.</p>
+        </section>
+
+        <section class="start-section" id="como-empezar" aria-labelledby="start-title">
+          <div class="start-heading">
+            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Empieza hoy, paso a paso</p>
+            <h2 id="start-title">Empieza con tu academia en tres pasos.</h2>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span class="step-number">01</span>
+              <h3>Crea tu cuenta</h3>
+              <p>Empieza con tus datos personales y elige gestionar una academia.</p>
+            </article>
+            <article class="step">
+              <span class="step-number">02</span>
+              <h3>Configura la academia</h3>
+              <p>Después del registro, indicas el país y la modalidad para preparar el espacio.</p>
+            </article>
+            <article class="step">
+              <span class="step-number">03</span>
+              <h3>Organiza el día a día</h3>
+              <p>Empieza a ordenar gimnastas, grupos, cuotas y asistencia desde la herramienta.</p>
+            </article>
+          </div>
+          <p class="start-note">La cuenta estándar se crea en autoservicio. Si gestionas varias sedes o necesitas ayuda para migrar tus datos, puedes solicitar acompañamiento desde el contacto de Zaltyko.</p>
+        </section>
+
+        <section class="form-section" id="solicitud" aria-labelledby="form-title">
+          <div class="form-intro">
+            <p class="eyebrow eyebrow-light"><span class="eyebrow-mark" aria-hidden="true"></span> Acompañamiento</p>
+            <h2 id="form-title">¿Varias sedes o ayuda para migrar desde Excel?</h2>
+            <p>Cuéntanos qué parte de la gestión os quita más tiempo. Zaltyko indica que responde por email en horario laboral. Si tienes una academia estándar, puedes empezar directamente con una cuenta gratis.</p>
+            <a class="form-self-serve" data-track-attribution href="https://zaltyko.com/auth/register?role=owner&amp;utm_source=waitlist&amp;utm_medium=referral&amp;utm_campaign=academy_acquisition">Crear academia gratis <span aria-hidden="true">↗</span></a>
+            <div class="form-promise">
+              <span class="promise-icon" aria-hidden="true">↳</span>
+              <p>La conversación se centra en cómo gestionas hoy gimnastas, grupos, cobros y comunicación con las familias.</p>
+            </div>
+          </div>
+
+          <div class="form-card contact-handoff">
+            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Contacto asistido</p>
+            <h3>Una conversación sobre tu operativa real.</h3>
+            <p>El formulario de contacto de Zaltyko permite explicar el caso y registra la solicitud en el flujo comercial existente. No necesitas crear una cuenta para preguntar por una migración o varias sedes.</p>
+            <a class="button button-primary" data-track-attribution href="https://zaltyko.com/contact?type=migracion&amp;utm_source=waitlist&amp;utm_medium=referral&amp;utm_campaign=academy_acquisition">Cuéntanos tu caso <span aria-hidden="true">↗</span></a>
+            <p class="form-privacy-note">Antes de enviar, podrás revisar la política de privacidad en el formulario de contacto.</p>
+          </div>
+        </section>
+
+        <section class="faq-section" aria-labelledby="faq-title">
+          <div class="faq-heading">
+            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Antes de enviar</p>
+            <h2 id="faq-title">Preguntas claras, desde el principio.</h2>
+          </div>
+          <div class="faq-list">
+            <details>
+              <summary>¿Necesito pedir una demo para empezar?</summary>
+              <p>No. Puedes crear tu academia gratis y empezar en autoservicio. El formulario de contacto es para operaciones multi-sede o migraciones complejas.</p>
+            </details>
+            <details>
+              <summary>¿Cuándo indico el país y la modalidad?</summary>
+              <p>Primero creas tu cuenta personal. Al configurar la academia, el flujo de alta pide el país base y la modalidad; así no añadimos esas preguntas al registro inicial.</p>
+            </details>
+            <details>
+              <summary>¿Qué pasa si necesito pasar datos desde Excel o gestionar varias sedes?</summary>
+              <p>Cuéntanos tu caso desde el <a data-track-attribution href="https://zaltyko.com/contact?type=migracion&amp;utm_source=waitlist&amp;utm_medium=referral&amp;utm_campaign=academy_acquisition">formulario de contacto</a> y el equipo valorará contigo el siguiente paso.</p>
+            </details>
+            <details>
+              <summary>¿Tengo que aceptar comunicaciones comerciales?</summary>
+              <p>No. El formulario de contacto sirve para responder a tu mensaje; no incluye una suscripción a novedades comerciales.</p>
+            </details>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a class="footer-brand" href="/" aria-label="Zaltyko, volver al inicio">
+          <img src="/logo-zaltyko.svg" width="112" height="34" alt="Zaltyko" />
+        </a>
+        <p>Gestión diaria para academias de gimnasia artística y rítmica.</p>
+        <a href="https://zaltyko.com/politica-privacidad">Política de privacidad</a>
+      </footer>
     </div>
-    
-    <script>
-        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                club: document.getElementById('club').value,
-                phone: document.getElementById('phone').value,
-                timestamp: new Date().toISOString()
-            };
-            
-            // Log to console (for demo - in production, send to backend)
-            console.log('Nueva inscripción:', formData);
-            
-            // Store in localStorage (temporary storage)
-            const waitlist = JSON.parse(localStorage.getItem('zaltyko_waitlist') || '[]');
-            waitlist.push(formData);
-            localStorage.setItem('zaltyko_waitlist', JSON.stringify(waitlist));
-            
-            // Show success message
-            document.getElementById('form-section').style.display = 'none';
-            document.getElementById('success-section').classList.add('show');
-            
-            // In production, you would send this to a backend or service like:
-            // - Supabase
-            // - Google Sheets (via Google Forms)
-            // - Mailchimp
-            // - Airtable
-            // etc.
-        });
-    </script>
-</body>
+
+    <noscript><p class="noscript-note">Los enlaces de esta página te llevan al registro y al formulario de contacto de Zaltyko.</p></noscript>
+  </body>
 </html>
