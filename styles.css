@@ -54,22 +54,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .skip-link:focus { transform: translateY(0); }
 
-.preview-bar {
-  display: flex;
-  min-height: 38px;
-  align-items: center;
-  justify-content: center;
-  gap: .6rem;
-  padding: .4rem 1rem;
-  color: #334155;
-  background: #E2E8F0;
-  font-size: .75rem;
-  font-weight: 650;
-  letter-spacing: .025em;
-  text-align: center;
-}
-.preview-indicator { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #1FC7B6; }
-
 .site-shell { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
 .site-header { display: flex; min-height: 92px; align-items: center; justify-content: space-between; gap: 2rem; }
 .brand { display: inline-flex; align-items: center; text-decoration: none; }
@@ -387,7 +371,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 @media (max-width: 380px) {
   .site-shell { width: calc(100% - 28px); }
-  .preview-bar { font-size: .66rem; }
   .hero-copy { padding-right: 22px; padding-left: 22px; }
   .hero h1 { font-size: 2.62rem; }
   .hero-actions { align-items: flex-start; flex-direction: column; gap: .8rem; }
