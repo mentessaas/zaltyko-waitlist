@@ -39,12 +39,13 @@ function setFieldError(input, message) {
   if (error) error.textContent = message;
 }
 
-function validateForm(name, email) {
+function validateForm(name, email, consent) {
   const errors = [];
   const cleanName = name.value.trim();
 
   setFieldError(name, "");
   setFieldError(email, "");
+  setFieldError(consent, "");
   if (cleanName.length < 2) {
     const message = "Escribe tu nombre para poder atender la solicitud.";
     setFieldError(name, message);
@@ -58,6 +59,11 @@ function validateForm(name, email) {
     const message = "Revisa el formato del email.";
     setFieldError(email, message);
     errors.push({ input: email, message });
+  }
+  if (!consent.checked) {
+    const message = "Marca la casilla para recibir el aviso de lanzamiento y novedades por email.";
+    setFieldError(consent, message);
+    errors.push({ input: consent, message });
   }
 
   return errors;
@@ -86,6 +92,7 @@ function setupContactForm(attribution) {
 
   const name = document.getElementById("name");
   const email = document.getElementById("email");
+  const consent = document.getElementById("marketing-consent");
   const academy = document.getElementById("academy");
   const honeypot = document.getElementById("website");
   const button = document.getElementById("submit-button");
@@ -110,11 +117,19 @@ function setupContactForm(attribution) {
       renderValidationSummary(errorSummary, remainingErrors);
     });
   });
+  consent.addEventListener("change", () => {
+    setFieldError(consent, "");
+    const remainingErrors = [name, email, consent].flatMap((field) => {
+      const message = document.getElementById(`${field.id}-error`).textContent;
+      return message ? [{ input: field, message }] : [];
+    });
+    renderValidationSummary(errorSummary, remainingErrors);
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (isSubmitting) return;
-    const validationErrors = validateForm(name, email);
+    const validationErrors = validateForm(name, email, consent);
     if (validationErrors.length) {
       renderValidationSummary(errorSummary, validationErrors);
       errorSummary.focus();
@@ -125,7 +140,7 @@ function setupContactForm(attribution) {
     const cleanName = name.value.trim();
     const cleanEmail = email.value.trim().toLowerCase();
     const cleanAcademy = academy.value.trim();
-    const fingerprint = JSON.stringify([cleanName, cleanEmail, cleanAcademy, attribution]);
+    const fingerprint = JSON.stringify([cleanName, cleanEmail, cleanAcademy, consent.checked, attribution]);
     if (fingerprint !== retryFingerprint) {
       retryFingerprint = fingerprint;
       retrySubmissionId = crypto.randomUUID();
@@ -150,6 +165,7 @@ function setupContactForm(attribution) {
           reason: "sales",
           source: "academy_waitlist",
           message: "Solicitud de información desde la landing de academias.",
+          marketingConsent: consent.checked,
           visitorId: null,
           submissionId: retrySubmissionId,
           attribution,

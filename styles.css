@@ -57,6 +57,11 @@ input { caret-color: var(--deep-teal); }
 .optional-academy summary { min-height: 44px; padding: .58rem 0; color: #334155; font-size: .76rem; font-weight: 700; cursor: pointer; }
 .optional-academy summary:focus-visible { outline: 3px solid var(--deep-teal); outline-offset: 3px; }
 .optional-academy[open] summary { margin-bottom: .3rem; }
+.consent-field { display: grid; grid-template-columns: 22px minmax(0,1fr); align-items: start; gap: .58rem; }
+.consent-field input { width: 20px; height: 20px; margin: .16rem 0 0; accent-color: var(--deep-teal); cursor: pointer; }
+.consent-field input:focus-visible { outline: 3px solid var(--deep-teal); outline-offset: 3px; }
+.consent-field label { display: flex; min-height: 44px; align-items: flex-start; padding: .08rem 0; color: #334155; font-size: .71rem; line-height: 1.55; cursor: pointer; }
+#marketing-consent-error { margin-top: -.45rem; }
 .field input { display: block; width: 100%; min-height: 48px; border: 1px solid #94a3b8; border-radius: 9px; padding: .65rem .75rem; color: var(--ink); background: #fff; font-size: .87rem; }
 .field input:hover { border-color: #64748b; }
 .field input:focus { border-color: var(--deep-teal); outline: 3px solid rgba(31,199,182,.23); }
@@ -108,19 +113,19 @@ input { caret-color: var(--deep-teal); }
 }
 @media (max-width: 700px) {
   .site-shell { width: min(100% - 32px, 540px); }
-  .site-header { min-height: 72px; }
+  .site-header { min-height: 68px; }
   .brand img { width: 120px; }
   .header-link { min-height: 44px; padding: .4rem .62rem; font-size: .71rem; }
-  .hero { grid-template-columns: 1fr; grid-template-areas: "copy" "form" "focus"; gap: 22px; padding: 27px 22px 23px; }
+  .hero { grid-template-columns: 1fr; grid-template-areas: "copy" "form" "focus"; gap: 12px; padding: 19px 22px 23px; }
   .hero::before { top: -240px; right: -250px; }
   .hero::after { top: -185px; right: -200px; }
   .hero-copy { padding-top: 2px; }
   .hero h1 { max-width: 520px; font-size: clamp(2.25rem, 10.2vw, 3.25rem); }
   .hero-lede { max-width: 500px; margin-top: .9rem; font-size: .87rem; line-height: 1.65; }
-  .form-card { max-width: none; justify-self: stretch; padding: 21px 18px; }
-  .form-card h2 { font-size: clamp(1.75rem, 7.2vw, 2.1rem); }
-  .form-intro { margin: .5rem 0 .85rem; font-size: .8rem; }
-  #academy-interest-form { gap: .62rem; }
+  .form-card { max-width: none; justify-self: stretch; padding: 16px; }
+  .form-card h2 { font-size: clamp(1.5rem, 6.4vw, 2.1rem); }
+  .form-intro { margin: .5rem 0 .65rem; font-size: .8rem; }
+  #academy-interest-form { gap: .46rem; }
   .focus-list { grid-template-columns: 1fr; gap: 0; padding: 0; }
   .focus-item { display: grid; grid-template-columns: minmax(0,1fr); gap: .2rem; border-top: 1px solid rgba(203,213,225,.3); padding: .62rem 0; }
   .focus-item h2 { font-size: .82rem; }
