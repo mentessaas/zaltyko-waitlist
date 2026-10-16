@@ -179,7 +179,7 @@ function setupContactForm(attribution) {
           throw new Error("Hemos recibido demasiadas solicitudes desde esta conexión. Espera un minuto y vuelve a intentarlo.");
         }
         if (response.status >= 500) {
-          throw new Error("Ahora no podemos guardar tu solicitud. Tus datos siguen aquí; inténtalo de nuevo dentro de unos minutos.");
+          throw new Error(responseMessage(payload) || "No se ha podido completar el envío. Tus datos siguen en el formulario; inténtalo de nuevo.");
         }
         throw new Error(responseMessage(payload) || "No se pudo guardar la solicitud. Revisa los datos e inténtalo de nuevo.");
       }
