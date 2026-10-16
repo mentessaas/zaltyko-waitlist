@@ -1,5 +1,5 @@
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
-const UTM_VALUE = /^[a-z0-9_-]{1,128}$/;
+const UTM_VALUE = /^[\p{L}\p{N}._ -]{1,128}$/u;
 const DEFAULT_ATTRIBUTION = {
   utm_source: "waitlist",
   utm_medium: "referral",
@@ -11,7 +11,7 @@ function getAttribution() {
   const values = {};
 
   for (const key of UTM_KEYS) {
-    const value = search.get(key)?.trim().toLowerCase();
+    const value = search.get(key)?.trim();
     if (value && UTM_VALUE.test(value)) values[key] = value;
   }
 
