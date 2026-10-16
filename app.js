@@ -1,39 +1,170 @@
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
-const UTM_DEFAULTS = {
+const UTM_VALUE = /^[\p{L}\p{N}._ -]{1,128}$/u;
+const DEFAULT_ATTRIBUTION = {
   utm_source: "waitlist",
   utm_medium: "referral",
   utm_campaign: "academy_acquisition",
 };
-const UTM_VALUE = /^[a-z0-9_-]{1,128}$/;
 
 function getAttribution() {
-  const incoming = new URLSearchParams(window.location.search);
+  const search = new URLSearchParams(window.location.search);
   const values = {};
 
   for (const key of UTM_KEYS) {
-    const value = incoming.get(key)?.trim().toLowerCase();
+    const value = search.get(key)?.trim();
     if (value && UTM_VALUE.test(value)) values[key] = value;
   }
 
-  if (Object.keys(values).length > 0) return values;
-  return UTM_DEFAULTS;
+  return Object.keys(values).length ? values : DEFAULT_ATTRIBUTION;
 }
 
-function passAttributionToZaltyko() {
-  const attribution = getAttribution();
+function setFieldError(input, message) {
+  const error = document.getElementById(`${input.id}-error`);
+  input.setAttribute("aria-invalid", message ? "true" : "false");
+  if (error) error.textContent = message;
+}
 
-  document.querySelectorAll("a[data-track-attribution]").forEach((link) => {
+function validateForm(name, email) {
+  const errors = [];
+  const cleanName = name.value.trim();
+
+  setFieldError(name, "");
+  setFieldError(email, "");
+  if (cleanName.length < 2) {
+    const message = "Escribe tu nombre para poder atender la solicitud.";
+    setFieldError(name, message);
+    errors.push({ input: name, message });
+  }
+  if (!email.value.trim()) {
+    const message = "Escribe un email de contacto.";
+    setFieldError(email, message);
+    errors.push({ input: email, message });
+  } else if (!email.validity.valid) {
+    const message = "Revisa el formato del email.";
+    setFieldError(email, message);
+    errors.push({ input: email, message });
+  }
+  return errors;
+}
+
+function renderValidationSummary(summary, errors) {
+  const list = summary.querySelector("ul");
+  list.replaceChildren(...errors.map(({ input, message }) => {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#${input.id}`;
+    link.textContent = message;
+    item.append(link);
+    return item;
+  }));
+  summary.hidden = errors.length === 0;
+}
+
+function responseMessage(payload) {
+  return payload?.message || payload?.data?.message || payload?.error || payload?.data?.error;
+}
+
+function setupContactForm(attribution) {
+  const form = document.getElementById("academy-interest-form");
+  if (!form) return;
+
+  const name = document.getElementById("name");
+  const email = document.getElementById("email");
+  const academy = document.getElementById("academy");
+  const honeypot = document.getElementById("website");
+  const button = document.getElementById("submit-button");
+  const feedback = document.getElementById("form-feedback");
+  const errorSummary = document.getElementById("form-error-summary");
+  const defaultButton = button.innerHTML;
+  let isSubmitting = false;
+  let retryFingerprint = "";
+  let retrySubmissionId = "";
+  button.disabled = false;
+
+  [name, email].forEach((input) => {
+    input.addEventListener("input", () => {
+      setFieldError(input, "");
+      feedback.hidden = true;
+      feedback.textContent = "";
+      const remainingErrors = [name, email].flatMap((field) => {
+        const message = document.getElementById(`${field.id}-error`).textContent;
+        return message ? [{ input: field, message }] : [];
+      });
+      renderValidationSummary(errorSummary, remainingErrors);
+    });
+  });
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+    const validationErrors = validateForm(name, email);
+    if (validationErrors.length) {
+      renderValidationSummary(errorSummary, validationErrors);
+      errorSummary.focus();
+      return;
+    }
+    if (honeypot.value.trim()) return;
+
+    const cleanName = name.value.trim();
+    const cleanEmail = email.value.trim().toLowerCase();
+    const cleanAcademy = academy.value.trim();
+    const fingerprint = JSON.stringify([cleanName, cleanEmail, cleanAcademy, attribution]);
+    if (fingerprint !== retryFingerprint) {
+      retryFingerprint = fingerprint;
+      retrySubmissionId = crypto.randomUUID();
+    }
+
+    isSubmitting = true;
+    button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    button.innerHTML = "<span>Enviando…</span><span aria-hidden=\"true\">↻</span>";
+    feedback.hidden = true;
+    feedback.textContent = "";
+    errorSummary.hidden = true;
+
     try {
-      const destination = new URL(link.href);
-      for (const key of UTM_KEYS) destination.searchParams.delete(key);
-      for (const [key, value] of Object.entries(attribution)) {
-        destination.searchParams.set(key, value);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: cleanName,
+          email: cleanEmail,
+          ...(cleanAcademy ? { academy: cleanAcademy } : {}),
+          reason: "sales",
+          source: "academy_waitlist",
+          message: "Solicitud de información desde la landing de academias.",
+          visitorId: null,
+          submissionId: retrySubmissionId,
+          attribution,
+          honeypot: honeypot.value,
+        }),
+      });
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok || payload?.ok !== true) {
+        if (response.status === 429) {
+          throw new Error("Hemos recibido demasiadas solicitudes desde esta conexión. Espera un minuto y vuelve a intentarlo.");
+        }
+        if (response.status >= 500) {
+          throw new Error(responseMessage(payload) || "No se ha podido completar el envío. Tus datos siguen en el formulario; inténtalo de nuevo.");
+        }
+        throw new Error(responseMessage(payload) || "No se pudo guardar la solicitud. Revisa los datos e inténtalo de nuevo.");
       }
-      link.href = destination.toString();
-    } catch {
-      // A malformed CTA should remain unchanged and must not break the page.
+
+      window.location.assign("/gracias/");
+    } catch (error) {
+      feedback.textContent = error instanceof Error
+        ? error.message
+        : "No se pudo enviar la solicitud. Tus datos siguen aquí; inténtalo de nuevo.";
+      feedback.hidden = false;
+      feedback.focus();
+    } finally {
+      isSubmitting = false;
+      button.disabled = false;
+      button.removeAttribute("aria-busy");
+      button.innerHTML = defaultButton;
     }
   });
 }
 
-passAttributionToZaltyko();
+const attribution = getAttribution();
+setupContactForm(attribution);
