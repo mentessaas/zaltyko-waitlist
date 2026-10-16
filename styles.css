@@ -22,7 +22,9 @@ body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(
 a { color: inherit; text-underline-offset: .2em; }
 button, input { font: inherit; }
 [hidden] { display: none !important; }
-a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--deep-teal); outline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible, .form-error-summary:focus-visible, .form-feedback:focus-visible, .success-panel:focus-visible { outline: 3px solid var(--deep-teal); outline-offset: 3px; }
+::selection { color: var(--ink); background: var(--teal); }
+input { caret-color: var(--deep-teal); }
 
 .skip-link { position: absolute; z-index: 10; top: .5rem; left: .5rem; display: inline-flex; min-height: 44px; align-items: center; border-radius: 10px; padding: .6rem 1rem; color: var(--white); background: var(--ink); transform: translateY(-150%); }
 .skip-link:focus { transform: translateY(0); }
@@ -39,24 +41,22 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid 
 .hero::after { top: -145px; right: -75px; width: 380px; height: 380px; }
 .hero-copy, .form-card, .focus-list { position: relative; z-index: 1; }
 .hero-copy { grid-area: copy; align-self: end; padding: 18px 0 0; }
-.eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1.05rem; color: #cbd5e1; font-size: .67rem; font-weight: 720; letter-spacing: .12em; line-height: 1.5; text-transform: uppercase; }
-.eyebrow-mark { display: inline-block; width: 24px; height: 1px; flex: 0 0 auto; background: var(--teal); }
-.hero h1 { max-width: 650px; margin: 0; font-family: var(--font-display); font-size: clamp(3rem, 5.2vw, 4.8rem); font-weight: 560; letter-spacing: -.065em; line-height: .99; }
+.hero h1 { max-width: 650px; margin: 0; font-family: var(--font-display); font-size: clamp(3rem, 5.2vw, 4.8rem); font-weight: 560; letter-spacing: -.04em; line-height: .99; }
 .hero h1 em { color: #5eead4; font-style: normal; }
 .hero-lede { max-width: 570px; margin: 1.35rem 0 0; color: #e2e8f0; font-size: clamp(.96rem, 1.25vw, 1.08rem); line-height: 1.75; }
-.hero-secondary { display: inline-flex; min-height: 44px; align-items: center; flex-wrap: wrap; gap: .25rem .4rem; margin-top: 1rem; color: #cbd5e1; font-size: .78rem; text-decoration: none; }
-.hero-secondary strong { color: #5eead4; }
-.hero-secondary:hover strong, .success-link:hover { text-decoration: underline; text-underline-offset: .2em; }
+.success-link:hover { text-decoration: underline; text-underline-offset: .2em; }
 
 .form-card { grid-area: form; width: 100%; max-width: 500px; justify-self: end; border: 1px solid #dbe4e7; border-radius: var(--radius); padding: clamp(23px, 3vw, 36px); color: var(--ink); background: var(--white); box-shadow: 0 14px 50px rgba(0,0,0,.18); }
-.form-card > .eyebrow { margin-bottom: .7rem; color: var(--deep-teal); font-size: .64rem; }
-.form-card h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 600; letter-spacing: -.05em; line-height: 1.08; }
+.form-card h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 600; letter-spacing: -.035em; line-height: 1.08; }
 .form-intro { margin: .65rem 0 1.15rem; color: var(--ink-soft); font-size: .84rem; line-height: 1.55; }
 #academy-interest-form { display: grid; gap: .8rem; }
 .field { min-width: 0; }
 .field label { display: block; margin: 0 0 .34rem; color: #334155; font-size: .76rem; font-weight: 700; }
 .field label > span[aria-hidden="true"] { color: var(--coral); }
 .optional { margin-left: .28rem; color: var(--muted); font-size: .69rem; font-weight: 500; }
+.optional-academy summary { min-height: 44px; padding: .58rem 0; color: #334155; font-size: .76rem; font-weight: 700; cursor: pointer; }
+.optional-academy summary:focus-visible { outline: 3px solid var(--deep-teal); outline-offset: 3px; }
+.optional-academy[open] summary { margin-bottom: .3rem; }
 .field input { display: block; width: 100%; min-height: 48px; border: 1px solid #94a3b8; border-radius: 9px; padding: .65rem .75rem; color: var(--ink); background: #fff; font-size: .87rem; }
 .field input:hover { border-color: #64748b; }
 .field input:focus { border-color: var(--deep-teal); outline: 3px solid rgba(31,199,182,.23); }
@@ -69,18 +69,21 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid 
 .button-submit:hover { background: #99f6e4; }
 .button-submit:active { transform: translateY(1px); }
 .button-submit:disabled { color: #475569; background: #e2e8f0; cursor: wait; }
+.form-error-summary { margin: 0 0 .1rem; border: 1px solid #fda29b; border-radius: 9px; padding: .65rem .75rem; color: #912018; background: #fff4f2; font-size: .77rem; line-height: 1.5; }
+.form-error-summary p { margin: 0 0 .28rem; font-weight: 700; }
+.form-error-summary ul { display: grid; gap: .2rem; margin: 0; padding-left: 1.1rem; }
+.form-error-summary a { color: inherit; font-weight: 650; }
 .form-feedback { margin: 0; border: 1px solid #fda29b; border-radius: 9px; padding: .65rem .75rem; color: #912018; background: #fff4f2; font-size: .77rem; line-height: 1.5; }
+.form-feedback:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
 .trap-field { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); white-space: nowrap; }
 
 .focus-list { grid-area: focus; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; align-self: start; padding: 4px 0 10px; }
 .focus-item { min-width: 0; border-top: 1px solid rgba(203,213,225,.32); padding: .8rem .7rem 0 0; }
-.focus-number { display: block; margin-bottom: .35rem; color: #5eead4; font-size: .63rem; font-weight: 750; letter-spacing: .12em; }
 .focus-item h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: .94rem; font-weight: 650; }
 .focus-item p { margin: .3rem 0 0; color: #cbd5e1; font-size: .69rem; line-height: 1.55; }
 
 .success-panel { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: .85rem; border: 1px solid #99d5cf; border-radius: 12px; padding: 19px; color: #134e4a; background: #f0fdfa; }
 .success-mark { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; color: white; background: var(--deep-teal); font-weight: 800; }
-.success-panel .eyebrow { margin: .1rem 0 .45rem; color: var(--deep-teal); font-size: .61rem; }
 .success-panel h3 { margin: 0; font-family: var(--font-display); font-size: clamp(1.45rem, 3vw, 1.9rem); font-weight: 600; letter-spacing: -.04em; line-height: 1.15; }
 .success-panel p:last-of-type { margin: .6rem 0 0; color: var(--ink-soft); font-size: .78rem; line-height: 1.6; }
 .success-link { display: inline-flex; min-height: 44px; align-items: center; gap: .45rem; margin-top: .4rem; color: var(--deep-teal); font-size: .78rem; font-weight: 750; text-decoration: none; }
@@ -94,31 +97,32 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid 
   .site-shell { width: min(100% - 48px, 760px); }
   .hero { grid-template-columns: minmax(0,1fr) minmax(320px,.88fr); column-gap: 36px; padding: 38px; }
   .hero h1 { font-size: clamp(2.8rem, 6vw, 4rem); }
-  .hero-secondary { gap: .2rem; font-size: .69rem; white-space: nowrap; }
   .focus-list { gap: 10px; }
   .focus-item { padding-right: .35rem; }
   .focus-item p { font-size: .66rem; }
+}
+@media (max-width: 800px) {
+  .hero { grid-template-columns: minmax(0,1fr); grid-template-areas: "copy" "form" "focus"; row-gap: 26px; }
+  .hero-copy { padding-top: 0; }
+  .form-card { max-width: 520px; justify-self: start; }
 }
 @media (max-width: 700px) {
   .site-shell { width: min(100% - 32px, 540px); }
   .site-header { min-height: 72px; }
   .brand img { width: 120px; }
-  .header-link { min-height: 42px; padding: .4rem .62rem; font-size: .71rem; }
+  .header-link { min-height: 44px; padding: .4rem .62rem; font-size: .71rem; }
   .hero { grid-template-columns: 1fr; grid-template-areas: "copy" "form" "focus"; gap: 22px; padding: 27px 22px 23px; }
   .hero::before { top: -240px; right: -250px; }
   .hero::after { top: -185px; right: -200px; }
   .hero-copy { padding-top: 2px; }
-  .eyebrow { margin-bottom: .8rem; font-size: .59rem; }
-  .hero h1 { max-width: 520px; font-size: clamp(2.55rem, 10.2vw, 3.75rem); }
+  .hero h1 { max-width: 520px; font-size: clamp(2.25rem, 10.2vw, 3.25rem); }
   .hero-lede { max-width: 500px; margin-top: .9rem; font-size: .87rem; line-height: 1.65; }
-  .hero-secondary { margin-top: .45rem; font-size: .73rem; }
   .form-card { max-width: none; justify-self: stretch; padding: 21px 18px; }
   .form-card h2 { font-size: clamp(1.75rem, 7.2vw, 2.1rem); }
   .form-intro { margin: .5rem 0 .85rem; font-size: .8rem; }
   #academy-interest-form { gap: .62rem; }
   .focus-list { grid-template-columns: 1fr; gap: 0; padding: 0; }
-  .focus-item { display: grid; grid-template-columns: 34px minmax(0,1fr); gap: .2rem .65rem; border-top: 1px solid rgba(203,213,225,.3); padding: .62rem 0; }
-  .focus-number { grid-row: span 2; margin: .12rem 0 0; }
+  .focus-item { display: grid; grid-template-columns: minmax(0,1fr); gap: .2rem; border-top: 1px solid rgba(203,213,225,.3); padding: .62rem 0; }
   .focus-item h2 { font-size: .82rem; }
   .focus-item p { margin-top: .12rem; font-size: .7rem; }
   .site-footer { grid-template-columns: 1fr auto; gap: .25rem .8rem; padding: 15px 0 20px; }

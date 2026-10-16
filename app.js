@@ -40,27 +40,40 @@ function setFieldError(input, message) {
 }
 
 function validateForm(name, email) {
-  let valid = true;
+  const errors = [];
   const cleanName = name.value.trim();
 
   setFieldError(name, "");
   setFieldError(email, "");
   if (cleanName.length < 2) {
-    setFieldError(name, "Escribe tu nombre para poder atender la solicitud.");
-    valid = false;
+    const message = "Escribe tu nombre para poder atender la solicitud.";
+    setFieldError(name, message);
+    errors.push({ input: name, message });
   }
   if (!email.value.trim()) {
-    setFieldError(email, "Escribe un email de contacto.");
-    valid = false;
+    const message = "Escribe un email de contacto.";
+    setFieldError(email, message);
+    errors.push({ input: email, message });
   } else if (!email.validity.valid) {
-    setFieldError(email, "Revisa el formato del email.");
-    valid = false;
+    const message = "Revisa el formato del email.";
+    setFieldError(email, message);
+    errors.push({ input: email, message });
   }
 
-  if (!valid) {
-    document.querySelector('[aria-invalid="true"]')?.focus();
-  }
-  return valid;
+  return errors;
+}
+
+function renderValidationSummary(summary, errors) {
+  const list = summary.querySelector("ul");
+  list.replaceChildren(...errors.map(({ input, message }) => {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#${input.id}`;
+    link.textContent = message;
+    item.append(link);
+    return item;
+  }));
+  summary.hidden = errors.length === 0;
 }
 
 function responseMessage(payload) {
@@ -77,6 +90,7 @@ function setupContactForm(attribution) {
   const honeypot = document.getElementById("website");
   const button = document.getElementById("submit-button");
   const feedback = document.getElementById("form-feedback");
+  const errorSummary = document.getElementById("form-error-summary");
   const successPanel = document.getElementById("success-panel");
   const defaultButton = button.innerHTML;
   let isSubmitting = false;
@@ -85,12 +99,27 @@ function setupContactForm(attribution) {
   button.disabled = false;
 
   [name, email].forEach((input) => {
-    input.addEventListener("input", () => setFieldError(input, ""));
+    input.addEventListener("input", () => {
+      setFieldError(input, "");
+      feedback.hidden = true;
+      feedback.textContent = "";
+      const remainingErrors = [name, email].flatMap((field) => {
+        const message = document.getElementById(`${field.id}-error`).textContent;
+        return message ? [{ input: field, message }] : [];
+      });
+      renderValidationSummary(errorSummary, remainingErrors);
+    });
   });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (isSubmitting || !validateForm(name, email)) return;
+    if (isSubmitting) return;
+    const validationErrors = validateForm(name, email);
+    if (validationErrors.length) {
+      renderValidationSummary(errorSummary, validationErrors);
+      errorSummary.focus();
+      return;
+    }
     if (honeypot.value.trim()) return;
 
     const cleanName = name.value.trim();
@@ -108,6 +137,7 @@ function setupContactForm(attribution) {
     button.innerHTML = "<span>Enviando…</span><span aria-hidden=\"true\">↻</span>";
     feedback.hidden = true;
     feedback.textContent = "";
+    errorSummary.hidden = true;
 
     try {
       const response = await fetch("/api/contact", {
@@ -146,6 +176,7 @@ function setupContactForm(attribution) {
         ? error.message
         : "No se pudo enviar la solicitud. Tus datos siguen aquí; inténtalo de nuevo.";
       feedback.hidden = false;
+      feedback.focus();
     } finally {
       isSubmitting = false;
       button.disabled = false;

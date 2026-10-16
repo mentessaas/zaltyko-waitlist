@@ -30,18 +30,19 @@
       <main>
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-copy">
-            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Para academias de gimnasia artística y rítmica</p>
             <h1 id="hero-title">Cuotas, grupos y asistencia. <em>En orden.</em></h1>
-            <p class="hero-lede">Las cuotas cobradas. Los grupos montados. La lista pasada. Deja atrás las hojas dispersas y los mensajes que complican el día a día de tu academia.</p>
-            <a class="hero-secondary" data-track-attribution href="https://zaltyko.com/auth/register?role=owner">¿Quieres empezar ya? <strong>Crea tu academia gratis</strong> <span aria-hidden="true">↗</span></a>
+            <p class="hero-lede">Para academias de gimnasia artística y rítmica: deja atrás las hojas y los mensajes dispersos.</p>
           </div>
 
           <section class="form-card" id="solicitud" aria-labelledby="form-title">
-            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Sin crear una cuenta</p>
             <h2 id="form-title">Recibe información de Zaltyko</h2>
-            <p class="form-intro">Déjanos tus datos y atenderemos tu solicitud. País y modalidad los puedes indicar más adelante.</p>
+            <p class="form-intro">Sin crear una cuenta. Nombre y email bastan.</p>
 
             <form id="academy-interest-form" method="post" action="/api/contact" novalidate>
+              <div class="form-error-summary" id="form-error-summary" role="alert" tabindex="-1" aria-labelledby="form-error-title" hidden>
+                <p id="form-error-title">Revisa estos datos para continuar:</p>
+                <ul></ul>
+              </div>
               <div class="field">
                 <label for="name">Tu nombre <span aria-hidden="true">*</span></label>
                 <input id="name" name="name" type="text" autocomplete="name" minlength="2" maxlength="100" required aria-describedby="name-error" />
@@ -52,10 +53,13 @@
                 <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="email-error" />
                 <span class="field-error" id="email-error"></span>
               </div>
-              <div class="field">
-                <label for="academy">Nombre de la academia <span class="optional">Opcional</span></label>
-                <input id="academy" name="academy" type="text" autocomplete="organization" maxlength="140" />
-              </div>
+              <details class="optional-academy">
+                <summary>Añadir nombre de academia <span class="optional">Opcional</span></summary>
+                <div class="field">
+                  <label for="academy">Nombre de la academia</label>
+                  <input id="academy" name="academy" type="text" autocomplete="organization" maxlength="140" />
+                </div>
+              </details>
 
               <div class="trap-field" aria-hidden="true">
                 <label for="website">No rellenes este campo</label>
@@ -64,13 +68,12 @@
 
               <p class="privacy-note">Usaremos tus datos para atender esta solicitud. No te suscribimos a comunicaciones comerciales. <a href="https://zaltyko.com/politica-privacidad" target="_blank" rel="noreferrer">Consulta la política de privacidad</a>.</p>
               <button class="button button-submit" id="submit-button" type="submit" disabled><span>Solicitar información</span><span aria-hidden="true">→</span></button>
-              <p class="form-feedback" id="form-feedback" role="alert" hidden></p>
+              <p class="form-feedback" id="form-feedback" role="alert" tabindex="-1" hidden></p>
             </form>
 
             <section class="success-panel" id="success-panel" aria-labelledby="success-title" tabindex="-1" hidden>
               <span class="success-mark" aria-hidden="true">✓</span>
               <div>
-                <p class="eyebrow">Solicitud guardada</p>
                 <h3 id="success-title">Gracias. Ya tenemos tus datos.</h3>
                 <p>Zaltyko te ayuda a tener cuotas, grupos y asistencia en un mismo lugar. Puedes empezar a conocerlo creando tu academia gratis.</p>
                 <a class="success-link" data-track-attribution href="https://zaltyko.com/auth/register?role=owner">Crear academia gratis <span aria-hidden="true">↗</span></a>
@@ -80,15 +83,12 @@
 
           <div class="focus-list" aria-label="Qué puedes ordenar con Zaltyko">
             <article class="focus-item">
-              <span class="focus-number" aria-hidden="true">01</span>
               <div><h2>Cuotas</h2><p>Consulta pagos y seguimiento sin perseguir cada caso entre mensajes y hojas.</p></div>
             </article>
             <article class="focus-item">
-              <span class="focus-number" aria-hidden="true">02</span>
               <div><h2>Grupos</h2><p>Ten organizada la información de gimnastas, niveles y grupos.</p></div>
             </article>
             <article class="focus-item">
-              <span class="focus-number" aria-hidden="true">03</span>
               <div><h2>Asistencia</h2><p>Pasa lista por sesión y encuentra la información del día a día.</p></div>
             </article>
           </div>
