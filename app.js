@@ -18,34 +18,18 @@ function getAttribution() {
   return Object.keys(values).length ? values : DEFAULT_ATTRIBUTION;
 }
 
-function passAttributionToZaltyko(attribution) {
-  document.querySelectorAll("a[data-track-attribution]").forEach((link) => {
-    try {
-      const destination = new URL(link.href);
-      for (const key of UTM_KEYS) destination.searchParams.delete(key);
-      for (const [key, value] of Object.entries(attribution)) {
-        destination.searchParams.set(key, value);
-      }
-      link.href = destination.toString();
-    } catch {
-      // A malformed CTA should not break the rest of the page.
-    }
-  });
-}
-
 function setFieldError(input, message) {
   const error = document.getElementById(`${input.id}-error`);
   input.setAttribute("aria-invalid", message ? "true" : "false");
   if (error) error.textContent = message;
 }
 
-function validateForm(name, email, consent) {
+function validateForm(name, email) {
   const errors = [];
   const cleanName = name.value.trim();
 
   setFieldError(name, "");
   setFieldError(email, "");
-  setFieldError(consent, "");
   if (cleanName.length < 2) {
     const message = "Escribe tu nombre para poder atender la solicitud.";
     setFieldError(name, message);
@@ -60,12 +44,6 @@ function validateForm(name, email, consent) {
     setFieldError(email, message);
     errors.push({ input: email, message });
   }
-  if (!consent.checked) {
-    const message = "Marca la casilla para recibir el aviso de lanzamiento y novedades por email.";
-    setFieldError(consent, message);
-    errors.push({ input: consent, message });
-  }
-
   return errors;
 }
 
@@ -92,13 +70,11 @@ function setupContactForm(attribution) {
 
   const name = document.getElementById("name");
   const email = document.getElementById("email");
-  const consent = document.getElementById("marketing-consent");
   const academy = document.getElementById("academy");
   const honeypot = document.getElementById("website");
   const button = document.getElementById("submit-button");
   const feedback = document.getElementById("form-feedback");
   const errorSummary = document.getElementById("form-error-summary");
-  const successPanel = document.getElementById("success-panel");
   const defaultButton = button.innerHTML;
   let isSubmitting = false;
   let retryFingerprint = "";
@@ -117,19 +93,10 @@ function setupContactForm(attribution) {
       renderValidationSummary(errorSummary, remainingErrors);
     });
   });
-  consent.addEventListener("change", () => {
-    setFieldError(consent, "");
-    const remainingErrors = [name, email, consent].flatMap((field) => {
-      const message = document.getElementById(`${field.id}-error`).textContent;
-      return message ? [{ input: field, message }] : [];
-    });
-    renderValidationSummary(errorSummary, remainingErrors);
-  });
-
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (isSubmitting) return;
-    const validationErrors = validateForm(name, email, consent);
+    const validationErrors = validateForm(name, email);
     if (validationErrors.length) {
       renderValidationSummary(errorSummary, validationErrors);
       errorSummary.focus();
@@ -140,7 +107,7 @@ function setupContactForm(attribution) {
     const cleanName = name.value.trim();
     const cleanEmail = email.value.trim().toLowerCase();
     const cleanAcademy = academy.value.trim();
-    const fingerprint = JSON.stringify([cleanName, cleanEmail, cleanAcademy, consent.checked, attribution]);
+    const fingerprint = JSON.stringify([cleanName, cleanEmail, cleanAcademy, attribution]);
     if (fingerprint !== retryFingerprint) {
       retryFingerprint = fingerprint;
       retrySubmissionId = crypto.randomUUID();
@@ -165,7 +132,6 @@ function setupContactForm(attribution) {
           reason: "sales",
           source: "academy_waitlist",
           message: "Solicitud de información desde la landing de academias.",
-          marketingConsent: consent.checked,
           visitorId: null,
           submissionId: retrySubmissionId,
           attribution,
@@ -184,9 +150,7 @@ function setupContactForm(attribution) {
         throw new Error(responseMessage(payload) || "No se pudo guardar la solicitud. Revisa los datos e inténtalo de nuevo.");
       }
 
-      form.hidden = true;
-      successPanel.hidden = false;
-      successPanel.focus();
+      window.location.assign("/gracias/");
     } catch (error) {
       feedback.textContent = error instanceof Error
         ? error.message
@@ -203,5 +167,4 @@ function setupContactForm(attribution) {
 }
 
 const attribution = getAttribution();
-passAttributionToZaltyko(attribution);
 setupContactForm(attribution);

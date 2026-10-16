@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#F5F8F8" />
-    <meta name="description" content="Zaltyko es la plataforma de gestión para academias de gimnasia artística y rítmica. Apúntate para recibir el aviso de lanzamiento y novedades." />
+    <meta name="description" content="Zaltyko está preparando una plataforma para academias de gimnasia artística y rítmica. Organiza gimnastas, grupos, cuotas y asistencia en un solo lugar." />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Zaltyko · Gestión para academias de gimnasia" />
-    <meta property="og:description" content="Organiza gimnastas, grupos, cuotas y asistencia desde un mismo lugar. Zaltyko llegará próximamente." />
-    <title>Zaltyko · Próximamente para academias de gimnasia</title>
+    <meta property="og:description" content="Una plataforma para academias de gimnasia artística y rítmica. Solicita información sobre el próximo lanzamiento de Zaltyko." />
+    <title>Zaltyko · Gestión para academias de gimnasia</title>
     <link rel="icon" href="/logo-zaltyko.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,19 +24,18 @@
         <a class="brand" href="/" aria-label="Zaltyko, inicio">
           <img src="/logo-zaltyko.svg" width="142" height="42" alt="Zaltyko" />
         </a>
-        <a class="header-link" data-track-attribution href="https://zaltyko.com/auth/register?role=owner">Crear academia gratis <span aria-hidden="true">↗</span></a>
       </header>
 
       <main>
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-copy">
             <h1 id="hero-title">Tu academia, <em>en orden.</em></h1>
-            <p class="hero-lede">La plataforma para academias de gimnasia artística y rítmica: gimnastas, grupos, cuotas y asistencia en un solo lugar.</p>
+            <p class="hero-lede">Estamos preparando una plataforma para academias de gimnasia artística y rítmica. Zaltyko reunirá gimnastas, grupos, cuotas y asistencia en un solo lugar, para que la gestión diaria no dependa de hojas y mensajes dispersos.</p>
           </div>
 
           <section class="form-card" id="solicitud" aria-labelledby="form-title">
-            <h2 id="form-title">Recibe el aviso</h2>
-            <p class="form-intro">Zaltyko llegará próximamente. Apúntate sin crear una cuenta.</p>
+            <h2 id="form-title">Solicita información</h2>
+            <p class="form-intro">Déjanos tus datos y atenderemos tu solicitud sobre el lanzamiento.</p>
 
             <form id="academy-interest-form" method="post" action="/api/contact" novalidate>
               <div class="form-error-summary" id="form-error-summary" role="alert" tabindex="-1" aria-labelledby="form-error-title" hidden>
@@ -61,30 +60,15 @@
                 </div>
               </details>
 
-              <div class="consent-field">
-                <input id="marketing-consent" name="marketingConsent" type="checkbox" required aria-describedby="consent-copy marketing-consent-error" />
-                <label for="marketing-consent" id="consent-copy">Sí, quiero recibir por email novedades sobre Zaltyko y el aviso de disponibilidad. Puedo darme de baja cuando quiera.</label>
-              </div>
-              <span class="field-error" id="marketing-consent-error"></span>
-
               <div class="trap-field" aria-hidden="true">
                 <label for="website">No rellenes este campo</label>
                 <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
               </div>
 
-              <p class="privacy-note">Solo recibirás novedades tras confirmar tu email. <a href="https://zaltyko.com/politica-privacidad" target="_blank" rel="noreferrer">Consulta la política de privacidad</a>.</p>
-              <button class="button button-submit" id="submit-button" type="submit" disabled><span>Quiero recibir novedades</span><span aria-hidden="true">→</span></button>
+              <p class="privacy-note">Usaremos tus datos para responder a esta solicitud. <a href="https://zaltyko.com/politica-privacidad" target="_blank" rel="noreferrer">Consulta la política de privacidad</a>.</p>
+              <button class="button button-submit" id="submit-button" type="submit" disabled><span>Quiero información</span><span aria-hidden="true">→</span></button>
               <p class="form-feedback" id="form-feedback" role="alert" tabindex="-1" hidden></p>
             </form>
-
-            <section class="success-panel" id="success-panel" aria-labelledby="success-title" tabindex="-1" hidden>
-              <span class="success-mark" aria-hidden="true">✓</span>
-              <div>
-                <h3 id="success-title">Un paso más: confirma tu email</h3>
-                <p id="success-copy">Tu solicitud está registrada. Si tu email todavía no está confirmado, te llegará un enlace para completar el alta. Cuando quede confirmada, te avisaremos de la disponibilidad y novedades. Si ya estás apuntado, no necesitas hacer nada más.</p>
-                <a class="success-link" data-track-attribution href="https://zaltyko.com/auth/register?role=owner">Crear academia gratis <span aria-hidden="true">↗</span></a>
-              </div>
-            </section>
           </section>
 
           <div class="focus-list" aria-label="Qué puedes ordenar con Zaltyko">
@@ -99,7 +83,7 @@
             </article>
           </div>
         </section>
-        <noscript><p class="noscript-note">Activa JavaScript para apuntarte al aviso de lanzamiento. También puedes <a href="https://zaltyko.com/auth/register?role=owner">crear tu academia gratis</a>.</p></noscript>
+        <noscript><p class="noscript-note">Activa JavaScript para poder enviar tu solicitud de información.</p></noscript>
       </main>
 
       <footer class="site-footer">
